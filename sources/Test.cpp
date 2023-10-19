@@ -3,11 +3,16 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QTranslator>
+
 using namespace std;
 
 int main(int argc, char *argv[])
 {
    QApplication a(argc, argv);
+   MainWindow w;
+   w.show();
+   return a.exec();
+
 //	cout << "Usage:" << endl;
 //	cout << "!login[username][password] - log in" << endl;
 //	cout << "!logout - log out" << endl;
@@ -30,7 +35,7 @@ int main(int argc, char *argv[])
   defaultTranslator.load("translations/qt_ru.qm");
   a.installTranslator(&defaultTranslator);
 
-  MainWindow::createClient();
+  //MainWindow::createClient();
 
   return a.exec();
 }
