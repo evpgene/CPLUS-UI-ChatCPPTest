@@ -24,6 +24,8 @@ public:
 
     QString userName() const;
 
+    std::shared_ptr<Database> getDatabase() const;
+
 private slots:
 
 public slots:
