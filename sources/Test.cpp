@@ -9,35 +9,22 @@ using namespace std;
 int main(int argc, char *argv[])
 {
    QApplication a(argc, argv);
-   MainWindow w;
-   w.show();
+   auto w = MainWindow::createClient();
+   if(w)
+        w->show();
+   else
+        return 0;
    return a.exec();
 
-//	cout << "Usage:" << endl;
-//	cout << "!login[username][password] - log in" << endl;
-//	cout << "!logout - log out" << endl;
-//	cout << "!register[username][password] - register new user" << endl;
-//	cout << "!exit for exit" << endl;
-//	cout << "!pm[(username)] message - write private message" << endl;
-//	cout << "!getPM - receive private messages" << endl;
-//  CommandLineInterface cli{};
-//  cout << "chat ver. 0.1beta" << endl;
-//  while (!cli->shouldExit())
-//  {
-//    cli->parseCommand();
-//  }
+//  QTranslator myappTranslator;
+//  myappTranslator.load("translations/my_ru.qm");
+//  a.installTranslator(&myappTranslator);
 
-  QTranslator myappTranslator;
-  myappTranslator.load("translations/my_ru.qm");
-  a.installTranslator(&myappTranslator);
-
-  QTranslator defaultTranslator;
-  defaultTranslator.load("translations/qt_ru.qm");
-  a.installTranslator(&defaultTranslator);
+//  QTranslator defaultTranslator;
+//  defaultTranslator.load("translations/qt_ru.qm");
+//  a.installTranslator(&defaultTranslator);
 
   //MainWindow::createClient();
-
-  return a.exec();
 }
 
 

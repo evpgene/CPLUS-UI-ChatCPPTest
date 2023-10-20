@@ -1,32 +1,57 @@
+#include <QMessageBox>
 #include "registrationform.h"
 #include "ui_registrationform.h"
 
-registrationForm::registrationForm(QWidget *parent) :
+RegistrationForm::RegistrationForm(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::registrationForm)
+    ui(new Ui::RegistrationForm)
 {
     ui->setupUi(this);
 }
 
-registrationForm::~registrationForm()
+RegistrationForm::~RegistrationForm()
 {
     delete ui;
 }
 
-void registrationForm::on_loginButton_clicked()
+void RegistrationForm::setDatabase(std::shared_ptr<Database> dbPtr)
+{
+    m_dbPtr = dbPtr;
+}
+
+void RegistrationForm::on_loginButton_clicked()
 {
     emit loginRequested();
 }
 
 
-void registrationForm::on_buttonBox_accepted()
+void RegistrationForm::on_buttonBox_accepted()
 {
+    if(ui->passwordEdit->text() != ui->passwordConfirmEdit->text()){
+        QMessageBox::critical(this, tr("Error"),
+                              tr("Passwords not match"));
+        return;
+    }
+    auto userId = m_dbPtr->addUser(ui->loginEdit->text().toStdString(),
+                     ui->passwordEdit->text().toStdString());
+    switch(userId){
+    case -1:
+        QMessageBox::critical(this, tr("Error"),
+                              tr("Incorrect login"));
+        return;
+    case -2:
+        QMessageBox::critical(this, tr("Error"),
+                              tr("Login allready exists"));
+        return;
+    default:
+        emit accepted(userId,ui->loginEdit->text());
+    }
 
 }
 
 
-void registrationForm::on_buttonBox_rejected()
+void RegistrationForm::on_buttonBox_rejected()
 {
-
+    emit rejected();
 }
 

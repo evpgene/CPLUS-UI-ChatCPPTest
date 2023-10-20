@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>registrationForm</class>
- <widget class="QWidget" name="registrationForm">
+ <class>RegistrationForm</class>
+ <widget class="QWidget" name="RegistrationForm">
   <property name="geometry">
    <rect>
     <x>0</x>
