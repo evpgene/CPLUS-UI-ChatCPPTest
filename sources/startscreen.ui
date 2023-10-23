@@ -17,12 +17,12 @@
    <item>
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="LoginForm" name="loginWidget">
       <layout class="QVBoxLayout" name="verticalLayout_2"/>
      </widget>
-     <widget class="registrationForm" name="registerWidget"/>
+     <widget class="RegistrationForm" name="registerWidget"/>
     </widget>
    </item>
   </layout>
@@ -35,7 +35,7 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>registrationForm</class>
+   <class>RegistrationForm</class>
    <extends>QWidget</extends>
    <header>registrationform.h</header>
    <container>1</container>

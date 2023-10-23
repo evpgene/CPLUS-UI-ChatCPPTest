@@ -68,7 +68,7 @@ Qt6_add_resources(QRC ${RC_FILES})
 #чтобы эти файлы генерировались во время билда проекта
 set(TS_FILES
  ${CMAKE_CURRENT_SOURCE_DIR}/translations/my_ru.ts)
-file(GLOB_RECURSE TS_SOURCES "*.cpp" "*.h" ".ui")
+file(GLOB_RECURSE TS_SOURCES "*.cpp" "*.h" "*.ui")
 add_custom_target(translations)
 #по сути, при билде для каждого .ts файла вызывается
 #утилита lupdate.exe
