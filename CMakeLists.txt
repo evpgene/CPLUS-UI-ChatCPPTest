@@ -27,17 +27,17 @@ set(CHAT_LIBRARIES)
 #здесь мы создаем и заполняем список подключаемых модулей Qt
 #если нужно добавить модули, добавьте их в этот список по образцу:
 #set(Qt5Modules [модуль 1] [модуль 2] ... [модуль n])
-set(Qt6Modules Core Widgets)
+set(Qt5Modules Core Widgets)
 
 
 #здесь мы формируем из списка модулей список библиотек,
 #которые требуется подключить, и складываем их в CHAT_LIBRARIES
-foreach(QtModule IN LISTS Qt6Modules)
-    list(APPEND CHAT_LIBRARIES Qt6::${QtModule})
+foreach(QtModule IN LISTS Qt5Modules)
+    list(APPEND CHAT_LIBRARIES Qt5::${QtModule})
 endforeach(QtModule)
 
 #здесь проверяется наличие всех необходимых модулей и компонентов Qt
-find_package(Qt6 COMPONENTS ${Qt6Modules} REQUIRED LinguistTools)
+find_package(Qt5 COMPONENTS ${Qt5Modules} REQUIRED LinguistTools)
 
 #здесь мы формируем список всех исходников, ассоциированных с
 #проектом Chat.
@@ -59,19 +59,18 @@ set(CMAKE_AUTOUIC ON)
 
 #вызываем обработку .ui и .qrc файлов. Здесь же происходит генерация
 #промежуточных исходников.
-Qt6_wrap_ui(QUI ${UI_FILES})
-Qt6_add_resources(QRC ${RC_FILES})
-
-
+Qt5_wrap_ui(QUI ${UI_FILES})
+Qt5_add_resources(QRC ${RC_FILES})
 
 #здесь происходит создание файлов переводов и установка зависимостей,
 #чтобы эти файлы генерировались во время билда проекта
-set(TS_FILES
- ${CMAKE_CURRENT_SOURCE_DIR}/translations/my_ru.ts)
-file(GLOB_RECURSE TS_SOURCES "*.cpp" "*.h" "*.ui")
+set(TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/my_ru.ts)
+file(GLOB_RECURSE TS_SOURCES ".cpp" ".h" ".ui")
 add_custom_target(translations)
 #по сути, при билде для каждого .ts файла вызывается
 #утилита lupdate.exe
+
+
 foreach(_ts_file ${TS_FILES})
  get_filename_component(_ts_name ${_ts_file} NAME_WE)
  add_custom_command(
@@ -79,23 +78,28 @@ foreach(_ts_file ${TS_FILES})
    DEPENDS ${TS_SOURCES}
 #вот тут как раз описывается путь к вызываемой утилите lupdate.exe
 #и ее входные аргументы:
-   COMMAND ${Qt6_LUPDATE_EXECUTABLE} -recursive
+   COMMAND ${Qt5_LUPDATE_EXECUTABLE} -recursive
+
    ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
    )
+
  add_custom_target(translate_${_ts_name} DEPENDS ${_ts_file})
  add_dependencies(translations translate_${_ts_name})
 endforeach()
 
+
+
+
 #подключаем файлы трансляции(переводов)
-Qt6_add_translation(QM_FILES ${TS_FILES})
+Qt5_add_translation(QM_FILES ${TS_FILES})
 
 
 
-add_executable(Chat ${SRC_FILES} ${HEADERS_FILES} ${RC_FILES} ${UI_FILES}
-    sources/mainwindow.h sources/mainwindow.cpp sources/mainwindow.ui
-    sources/startscreen.h sources/startscreen.cpp sources/startscreen.ui
-    sources/loginform.h sources/loginform.cpp sources/loginform.ui
-    sources/registrationform.h sources/registrationform.cpp sources/registrationform.ui
+add_executable(Chat ${QM_FILES} ${SRC_FILES} ${HEADERS_FILES} ${RC_FILES} ${UI_FILES}
+#    sources/mainwindow.h sources/mainwindow.cpp sources/mainwindow.ui
+#    sources/startscreen.h sources/startscreen.cpp sources/startscreen.ui
+#    sources/loginform.h sources/loginform.cpp sources/loginform.ui
+#    sources/registrationform.h sources/registrationform.cpp sources/registrationform.ui
 )
 
 #подключаем к проекту библиотеки
